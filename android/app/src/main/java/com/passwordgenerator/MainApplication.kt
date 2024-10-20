@@ -35,6 +35,13 @@ class MainApplication : Application(), ReactApplication {
       }
   )
 
+  override fun getPackages(): List<ReactPackage> {
+    return listOf(
+        MainReactPackage(),
+        SnackbarPackage() // <- add this
+    )
+}
+
   override val reactHost: ReactHost
     get() = ReactNativeHostWrapper.createReactHost(applicationContext, reactNativeHost)
 
