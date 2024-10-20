@@ -14,7 +14,7 @@ export default function Button(props: { type: string, title: string, onPress: ()
                 <Text style={styles.text}>{props.title}</Text>
             </Pressable>
         ) : (
-            <Pressable style={[styles.button, { backgroundColor: 'red' }]}>
+            <Pressable style={[styles.button, { backgroundColor: 'red' }] } onPress={props.onPress}>
                 <Text style={styles.text}>{props.title}</Text>
             </Pressable>
         )}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
     View,
@@ -7,8 +7,15 @@ import {
 } from "react-native";
 
     
-export default function InputBox(props: { length: number, setLength: (length: number) => void }) {
+export default function InputBox(props: { length: number, setLength: (length: number) => void, reset: boolean }) {
     const [text, setText] = useState('');
+    const [checked, setChecked] = useState(false);
+
+    useEffect(() => {
+        if (props.reset) {
+        setText('');
+        }
+    }, [props.reset]);
     
     const handleTextChange = (value: string) => {
         if (value.length <= 2) {

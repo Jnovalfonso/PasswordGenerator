@@ -25,7 +25,7 @@ export default function passwordGenerator(length: number, complexity: string[]) 
                 break;
         }
     }
-
+    
     for (let i = 0; i < length; i++) {
         const randomIndex = Math.floor(Math.random() * availableChar.length);
         password += availableChar[randomIndex];

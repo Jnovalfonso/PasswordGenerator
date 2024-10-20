@@ -19,6 +19,7 @@ import { showErrorSnackbar, showSuccessSnackbar, showInfoSnackbar } from './util
 
 export default function Main() {
     
+    const [reset, setReset] = useState(false);
     const [length, setLength] = useState(0); 
     const [complexity, setComplexity] = useState<string[]>([]); 
     const [password, setPassword] = useState('');
@@ -42,32 +43,46 @@ export default function Main() {
 
     const handlePasswordGeneration = () => {
         let passwordLength = length;
-        let checkedBoxes = complexity;
+        let checkedBoxes = complexity
 
-        if (passwordLength < 8 || passwordLength > 16) {
-            showErrorSnackbar('Password length must be between 8 and 16 characters');
+        if (passwordLength == 0) {
+            Alert.alert('Please enter a valid password length');
             return;
         }
-        
+        else if (checkedBoxes.length === 0) {
+            Alert.alert('Please select at least one option');0
+            return;
+        }
+        else if (passwordLength < 8 || passwordLength > 16) {
+            Alert.alert('Password length should be between 8 and 16');
+            return;
+        }
 
-
-        Alert.alert('Password Length: ' + passwordLength + ' Complexity: ' + checkedBoxes);
         let password = passwordGenerator(passwordLength, checkedBoxes);
+        setPassword(password);
     
-        Alert.alert('Password generated: ' + password);
+        Alert.alert('Password succesfully generated');
     }
+
+    const handleReset = () => {
+        setReset(!reset);
+        setLength(0);
+        setComplexity([]);
+        setPassword('');
+        Alert.alert('Reset successfully');
+    };
 
     return (
         <SafeAreaView style={styles.mainView}>
                 <Text style={styles.title}>Password Generator</Text>
-                <InputBox length={length} setLength={setLength}/>
-                <FormCheckBox id={'1'} label={'Upper Case Letter'} color={'blue'} isChecked={handleIsChecked}/>
-                <FormCheckBox id={'2'} label={'Lower Case Letter'} color={'green'} isChecked={handleIsChecked}/>
-                <FormCheckBox id={'3'} label={'Special Character'} color={'red'} isChecked={handleIsChecked}/>
-                <FormCheckBox id={'4'} label={'Number'} color={'orange'} isChecked={handleIsChecked}/>
-                <Output password={''} placeholder={'Select Options...'} handleCopy={handleCopy}/>
+                <InputBox length={length} setLength={setLength} reset={reset}/>
+                <FormCheckBox id={'1'} label={'Upper Case Letter'} color={'blue'} isChecked={handleIsChecked} reset={reset}/>
+                <FormCheckBox id={'2'} label={'Lower Case Letter'} color={'green'} isChecked={handleIsChecked} reset={reset}/>
+                <FormCheckBox id={'3'} label={'Special Character'} color={'red'} isChecked={handleIsChecked} reset={reset}/>
+                <FormCheckBox id={'4'} label={'Number'} color={'orange'} isChecked={handleIsChecked} reset={reset}/>
+                <Output password={password} placeholder={'Select Options...'} handleCopy={handleCopy}/>
                 <Button type={'1'} title={'Generate Password'} onPress={() => {handlePasswordGeneration()}}/>
-                <Button type={'2'} title={'Reset'} onPress={() => {}}/>
+                <Button type={'2'} title={'Reset'} onPress={() => {handleReset()}}/>
         </SafeAreaView>
     );
 
